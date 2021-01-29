@@ -1,0 +1,19 @@
+---
+# Source: kube-prometheus-stack/templates/prometheus/psp-clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kube-prometheus-stack-prometheus-psp
+  labels:
+    app: kube-prometheus-stack-prometheus    
+    chart: kube-prometheus-stack-13.3.1
+    release: "kube-prometheus-stack"
+    heritage: "Helm"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kube-prometheus-stack-prometheus-psp
+subjects:
+  - kind: ServiceAccount
+    name: kube-prometheus-stack-prometheus
+    namespace: monitoring

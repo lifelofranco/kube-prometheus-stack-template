@@ -1,0 +1,23 @@
+---
+# Source: kube-prometheus-stack/templates/grafana/servicemonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kube-prometheus-stack-grafana
+  namespace: monitoring
+  labels:
+    app: kube-prometheus-stack-grafana    
+    chart: kube-prometheus-stack-13.3.1
+    release: "kube-prometheus-stack"
+    heritage: "Helm"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+      app.kubernetes.io/instance: "kube-prometheus-stack"
+  namespaceSelector:
+    matchNames:
+      - "monitoring"
+  endpoints:
+  - port: service
+    path: "/metrics"

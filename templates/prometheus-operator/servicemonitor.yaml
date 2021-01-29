@@ -1,0 +1,31 @@
+---
+# Source: kube-prometheus-stack/templates/prometheus-operator/servicemonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kube-prometheus-stack-operator
+  namespace: monitoring
+  labels:
+    app: kube-prometheus-stack-operator    
+    chart: kube-prometheus-stack-13.3.1
+    release: "kube-prometheus-stack"
+    heritage: "Helm"
+spec:
+  endpoints:
+  - port: https
+    scheme: https
+    tlsConfig:
+      serverName: kube-prometheus-stack-operator
+      ca:
+        secret:
+          name: kube-prometheus-stack-admission
+          key: ca
+          optional: false
+    honorLabels: true
+  selector:
+    matchLabels:
+      app: kube-prometheus-stack-operator
+      release: "kube-prometheus-stack"
+  namespaceSelector:
+    matchNames:
+      - "monitoring"
